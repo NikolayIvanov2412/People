@@ -1,17 +1,35 @@
 package ru.netology;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        // Создаем взрослого человека
+        Person mom = new PersonBuilder()
+                .setName("Анна")
+                .setSurname("Вольф")
+                .setAge(31)
+                .setAddress("Москва")
+                .build();
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+        // Получаем полу-заполненного билдера для ребенка и создаем ребенка
+        Person child = mom.newChildBuilder()
+                .setName("Антон")
+                .build();
+
+        // Показываем созданный объект мамы и ребенка
+        System.out.println(mom.toString());
+        System.out.println(child.toString());
+
+        // Проверка исключений при попытке построить неполноценного объекта
+        try {
+            new PersonBuilder().build(); // Не указано обязательных данных
+        } catch (IllegalStateException e) {
+            System.err.println(e.getMessage()); // Ожидаемое исключение
+        }
+
+        try {
+            new PersonBuilder().setAge(-100).build(); // Некорректное значение возраста
+        } catch (IllegalArgumentException e) {
+            System.err.println(e.getMessage()); // Ожидаемое исключение
         }
     }
 }
